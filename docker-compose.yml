@@ -5,6 +5,18 @@ services:
       context: .
     environment:
       PORT: ${PORT}
+      DATABASE_URL: ${DATABASE_URL}
     ports:
         - "8000:8000"
+    restart: unless-stopped
+    depends_on:
+      - mysql_db
+
+  mysql_db:
+    image: mysql:8.0.34
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "4444:3306"
     restart: unless-stopped
