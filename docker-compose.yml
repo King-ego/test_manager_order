@@ -10,7 +10,11 @@ services:
         - "8000:8000"
     restart: unless-stopped
     depends_on:
-      - mysql_db
+      mysql_db:
+        condition: service_healthy
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
 
   mysql_db:
     image: mysql:8.0.34
@@ -20,3 +24,9 @@ services:
     ports:
       - "4444:3306"
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${MYSQL_USER}", "-p${MYSQL_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s

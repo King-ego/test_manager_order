@@ -12,4 +12,4 @@ RUN npx prisma generate --schema=./prisma/schema.prisma
 
 EXPOSE 8000
 
-CMD npm run start:dev
+CMD npm run migrate:dev && npm run start:dev
