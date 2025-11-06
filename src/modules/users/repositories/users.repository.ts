@@ -17,4 +17,8 @@ export class UsersRepository {
   public async getByCredential(email: string): Promise<User | null> {
       return this.client.user.findUnique({ where: { email } });
   }
+
+  public async getById(id: string): Promise<User | null> {
+        return this.client.user.findUnique({ where: { id } });
+  }
 }

@@ -16,6 +16,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  orders Order[]
+
   @@map("users")
 }
 
@@ -26,6 +28,8 @@ model Product {
   price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  productOrders ProductOrder[]
 
   @@map("products")
 }
@@ -38,19 +42,21 @@ model ProductOrder {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  order Order @relation(fields: [orderId], references: [id])
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 
   @@map("product_orders")
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  userId    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  document  String?
-
-  products ProductOrder[]
+  id            String         @id @default(uuid())
+  userId        String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  document      String?
+  status        String         @default("PENDING")
+  productsOrder ProductOrder[]
+  user          User           @relation(fields: [userId], references: [id])
 
   @@map("orders")
 }
