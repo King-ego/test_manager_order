@@ -26,6 +26,10 @@ export class ProductsRepository {
         const prismaOrm = prisma ?? this.client;
         await prismaOrm.product.delete({ where: { id } });
     }
+
+    public async updateProduct(id: string, data: Prisma.ProductUpdateInput, prisma?: Prisma.TransactionClient): Promise<void> {
+        await this.client.product.update({ where: { id }, data });
+    }
 }
 
 
