@@ -9,7 +9,7 @@ export class ProductOrderRepository{
         this.client = new PrismaClient();
     }
 
-    public async createProductOrder(data: any, prisma?: Prisma.TransactionClient): Promise<any>{
+    public async createProductOrder(data: Prisma.ProductOrderCreateInput, prisma?: Prisma.TransactionClient): Promise<any>{
         const orm = prisma ?? this.client;
         return orm.productOrder.create({ data });
     }
