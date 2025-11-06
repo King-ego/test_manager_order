@@ -2,7 +2,7 @@ import {HttpStatus, Injectable} from '@nestjs/common';
 import { UsersRepository } from '../../repositories/users.repository';
 import {CreateUserDto} from "../../dto/create-user.dto";
 import {CustomerException} from "../../../../shared/errors/customerException";
-import {SystemLogs} from "../../../../shared/logs/system.logs";
+import {SystemLogs} from "../../../../shared/logsSystem/system.logs";
 
 @Injectable()
 export class CreateUserService {

@@ -1,29 +1,18 @@
-import {CreateProductDto} from "../../products/dto/create-product.dto";
-import {IsArray, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, IsUUID} from "class-validator";
+import {IsArray, IsNotEmpty, IsOptional, IsString, IsUUID} from "class-validator";
+import {CreateProductOrderDto} from "./create-product-order.dto";
 
 export class CreateOrderDto {
     @IsNotEmpty()
     @IsUUID()
     @IsString()
-    user_id: string;
+    userId: string;
 
     @IsOptional()
     @IsString()
-    document_number: string;
+    document: string;
 
-    @IsNotEmpty({ each: true })
+    @IsNotEmpty()
     @IsArray()
-    products: CreateProductDto[];
+    products: CreateProductOrderDto[];
 }
 
-class CreateProductOrderDto {
-    @IsNotEmpty()
-    @IsUUID()
-    @IsString()
-    product_id: string;
-
-    @IsNotEmpty()
-    @IsNumber()
-    @IsPositive()
-    quantity: number;
-}
