@@ -57,9 +57,7 @@ export class CreateOrdersService {
                 }, client);
             }
 
-            for(const product of data_order.products){
-                promise.push(createProductOrder(product));
-            }
+            data_order.products.map(product=>promise.push(createProductOrder(product)));
 
             await Promise.all(promise);
             return "Order created successfully";
