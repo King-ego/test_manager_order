@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import {PrismaClient, Prisma, Order} from "../../../../prisma/generated/mysql/client";
+import {Injectable} from '@nestjs/common';
+import {Order, Prisma, PrismaClient} from "../../../../prisma/generated/mysql/client";
 
 @Injectable()
 export class OrderRepository {
@@ -11,7 +11,17 @@ export class OrderRepository {
 
     public async createOrder(data: Prisma.OrderCreateInput, prisma?: Prisma.TransactionClient): Promise<Order> {
         const orm = prisma ?? this.client;
-        return orm.order.create({ data });
+        return orm.order.create({data});
+    }
+
+    public async listOrderByUserId(userId: string): Promise<Order[]> {
+        return this.client.order.findMany({where: {userId}, include: {
+                productsOrder: {
+                    include: {
+                        product: true
+                    }
+                }
+            }});
     }
 
 }

@@ -8,6 +8,7 @@ import {ProductsRepository} from "../../../products/repositories/product.reposit
 import {CustomerException} from "../../../../shared/errors/customerException";
 import {SystemLogs} from "../../../../shared/logsSystem/system.logs";
 import {CreateProductOrderDto} from "../../dto/create-product-order.dto";
+import {UsersRepository} from "../../../users/repositories/users.repository";
 
 @Injectable()
 export class CreateOrdersService {
@@ -17,47 +18,53 @@ export class CreateOrdersService {
         private readonly orderRepository: OrderRepository,
         private readonly productOrderRepository: ProductOrderRepository,
         private readonly productRepository: ProductsRepository,
+        private readonly userRepository: UsersRepository
     ) {
         this.client = new PrismaClient();
     }
 
-    public async execute(data_order: CreateOrderDto){
-        await this.client.$transaction(async (client: Prisma.TransactionClient)=> {
+    public async execute(data_order: CreateOrderDto) {
+        await this.client.$transaction(async (client: Prisma.TransactionClient) => {
+            const user_exists = await this.userRepository.getById(data_order.userId);
+            if (!user_exists) {
+                SystemLogs(`User not found`);
+                throw new CustomerException("User not found", HttpStatus.NOT_FOUND);
+            }
             const promise: any[] = [];
             const order = await this.orderRepository.createOrder({
-                userId: data_order.userId,
+                user: {connect: {id: data_order.userId}},
                 document: data_order.document,
             }, client);
 
-            const createProductOrder = async (product: CreateProductOrderDto) =>{
+            const createProductOrder = async (product: CreateProductOrderDto) => {
                 const product_exists = await this.productRepository.getProduct(product.productId);
 
-                if(!product_exists){
+                if (!product_exists) {
                     SystemLogs(`Product not found`);
                     throw new CustomerException("Product not found", HttpStatus.NOT_FOUND);
                 }
 
                 const available_quantity = product_exists.stock - product.quantity;
 
-                if(available_quantity < 0){
+                if (available_quantity < 0) {
                     SystemLogs(`Insufficient stock for product ID ${product_exists.name}`);
                     throw new CustomerException(`Insufficient stock for product ID ${product_exists.name}`, HttpStatus.BAD_REQUEST);
                 }
 
                 await this.productRepository.updateProduct(
                     product.productId,
-                    { stock: available_quantity},
+                    {stock: available_quantity},
                     client
                 );
 
                 await this.productOrderRepository.createProductOrder({
                     order: {connect: {id: order.id}},
-                    productId: product.productId,
+                    product: {connect: {id: product.productId}},
                     quantity: product.quantity,
                 }, client);
             }
 
-            data_order.products.map(product=>promise.push(createProductOrder(product)));
+            data_order.products.map(product => promise.push(createProductOrder(product)));
 
             await Promise.all(promise);
             return "Order created successfully";
