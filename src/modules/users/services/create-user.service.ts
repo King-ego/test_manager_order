@@ -1,18 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { UsersRepository } from '../repositories/users.repository';
 import {CreateUserDto} from "../dto/create-user.dto";
-import {User} from "../../../../prisma/generated/mysql/client";
 
 @Injectable()
 export class CreateUserService {
-    private userRepository: UsersRepository;
 
-    constructor() {
-        this.userRepository = new UsersRepository();
-    }
+    constructor(private readonly userRepository: UsersRepository) {}
 
-    public async execute(date_user: CreateUserDto): Promise<User> {
+    public async execute(date_user: CreateUserDto) {
         return this.userRepository.createUser(date_user);
-
+        /*this.client.$transaction(async (prisma: Prisma.TransactionClient)=> {*/
+        /*})*/
     }
 }

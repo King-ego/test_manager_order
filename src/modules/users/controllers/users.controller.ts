@@ -7,7 +7,7 @@ import {User} from "../../../../prisma/generated/mysql/client";
 export class UsersController {
     constructor(private readonly createUserService: CreateUserService) {}
 
-    @Post()
+    @Post("/")
     public async createUser(@Body() dataUser: CreateUserDto): Promise<User> {
         const { name, email, password } = dataUser;
 
