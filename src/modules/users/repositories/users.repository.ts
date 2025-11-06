@@ -10,7 +10,11 @@ export class UsersRepository {
   }
 
   public async createUser(data: Prisma.UserCreateInput, prisma?: Prisma.TransactionClient): Promise<User> {
-      const orm = prisma || this.client;
+      const orm = prisma ?? this.client;
       return orm.user.create({ data });
+  }
+
+  public async getByCredential(email: string): Promise<User | null> {
+      return this.client.user.findUnique({ where: { email } });
   }
 }
