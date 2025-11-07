@@ -50,10 +50,9 @@ export class FinishOrderService {
             throw new CustomerException("Only pending orders can be canceled", 400);
         }
 
-
         await this.client.$transaction(async (transaction: Prisma.TransactionClient) => {
             const promise: any[] = [];
-            const updatedOrder = async (productOrder: ProductOrder) => {
+            const updatedStockProduct = async (productOrder: ProductOrder) => {
                 const product = await this.productRepository.getProduct(productOrder.productId)
 
                 if(!product) {
@@ -64,10 +63,11 @@ export class FinishOrderService {
                 const stock = productOrder.quantity + product.stock;
 
                 await this.productRepository.updateProduct(productOrder.productId, {stock}, transaction);
-                await this.orderRepository.updateOrder(order.id, {status: "CANCELED"}, transaction);
             }
 
-            order.productsOrder.map((pto: ProductOrder) => promise.push(updatedOrder(pto)))
+            order.productsOrder.map((pto: ProductOrder) => promise.push(updatedStockProduct(pto)));
+
+            await this.orderRepository.updateOrder(order.id, {status: "CANCELED"}, transaction);
 
             await Promise.all(promise);
         })
