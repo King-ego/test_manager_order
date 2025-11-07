@@ -24,17 +24,36 @@ export class CreateOrdersService {
     }
 
     public async execute(data_order: CreateOrderDto) {
-        await this.client.$transaction(async (client: Prisma.TransactionClient) => {
+        const cleaned_document = this.clearDocument(data_order.document);
+
+        const method = cleaned_document.length === 11 ? 9 : 6;
+
+        const document_exists = await fetch(`https://api.cpfcnpj.com.br/${process.env.TOKEN_API_DOCUMENT}/${method}/${cleaned_document}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+
+        const response_data = await document_exists.json();
+
+        if (!response_data.status) {
+            SystemLogs(`Invalid document`);
+            throw new CustomerException("Invalid document", HttpStatus.BAD_REQUEST);
+        }
+
+        await this.client.$transaction(async (transaction: Prisma.TransactionClient) => {
             const user_exists = await this.userRepository.getById(data_order.userId);
             if (!user_exists) {
                 SystemLogs(`User not found`);
                 throw new CustomerException("User not found", HttpStatus.NOT_FOUND);
             }
             const promise: any[] = [];
+
             const order = await this.orderRepository.createOrder({
                 user: {connect: {id: data_order.userId}},
-                document: data_order.document,
-            }, client);
+                document: cleaned_document,
+            }, transaction);
 
             const createProductOrder = async (product: CreateProductOrderDto) => {
                 const product_exists = await this.productRepository.getProduct(product.productId);
@@ -54,14 +73,14 @@ export class CreateOrdersService {
                 await this.productRepository.updateProduct(
                     product.productId,
                     {stock: available_quantity},
-                    client
+                    transaction
                 );
 
                 await this.productOrderRepository.createProductOrder({
                     order: {connect: {id: order.id}},
                     product: {connect: {id: product.productId}},
                     quantity: product.quantity,
-                }, client);
+                }, transaction);
             }
 
             data_order.products.map(product => promise.push(createProductOrder(product)));
@@ -69,6 +88,11 @@ export class CreateOrdersService {
             await Promise.all(promise);
             return "Order created successfully";
         })
+    }
+
+    private clearDocument(document: string): string {
+        if (!document) return '';
+        return String(document).replace(/\D/g, '');
     }
 
 }
