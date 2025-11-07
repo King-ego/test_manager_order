@@ -6,6 +6,7 @@ services:
     environment:
       PORT: ${PORT}
       DATABASE_URL: ${DATABASE_URL}
+      TOKEN_API_DOCUMENT: ${TOKEN_API_DOCUMENT}
     ports:
         - "8000:8000"
     restart: unless-stopped
