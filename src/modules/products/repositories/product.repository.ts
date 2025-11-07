@@ -28,7 +28,8 @@ export class ProductsRepository {
     }
 
     public async updateProduct(id: string, data: Prisma.ProductUpdateInput, prisma?: Prisma.TransactionClient): Promise<void> {
-        await this.client.product.update({ where: { id }, data });
+        const prismaOrm = prisma ?? this.client;
+        await prismaOrm.product.update({ where: { id }, data });
     }
 }
 
