@@ -1,0 +1,356 @@
+type: spec.insomnia.rest/5.0
+name: Manto Sistemas
+meta:
+  id: wrk_27020bcd14d3449a8447653e1b7004ed
+  created: 1762568102224
+  modified: 1762568102224
+collection:
+  - name: Usuarios
+    meta:
+      id: fld_d522d610561141cfb3e2fcaa46bb8e84
+      created: 1762570303020
+      modified: 1762573421002
+      sortKey: -1762570303020
+    children:
+      - url: "{{ _.BaseUrl }}/users"
+        name: Criar Usuario
+        meta:
+          id: req_363b0c5d63bf4da1a5d8356cb099eebd
+          created: 1762570306927
+          modified: 1762570451736
+          isPrivate: false
+          sortKey: -1762570306927
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "jorge",
+            	"email": "jorge@gmail.com",
+            	"password": "ert45trf"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.BaseUrl }}/session"
+        name: Login
+        meta:
+          id: req_8e75950bd63e41feb08d4d777c227a6d
+          created: 1762571075135
+          modified: 1762571187546
+          isPrivate: false
+          sortKey: -1762571075135
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "jorge@gmail.com",
+            	"password": "ert45trf"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Produtos
+    meta:
+      id: fld_b7bdeabc9af342d594ebfdebfbf06349
+      created: 1762571232785
+      modified: 1762572722131
+      sortKey: -1762571232785
+    children:
+      - url: "{{ _.BaseUrl }}/products"
+        name: Criar Produto
+        meta:
+          id: req_f5cf11ffc3e649a9b7d516a036e0ac72
+          created: 1762571247893
+          modified: 1762571846450
+          isPrivate: false
+          sortKey: -1762571247893
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Barbeador",
+            	"stock": 12,
+            	"price": 12.6
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.BaseUrl }}/products"
+        name: Listar Produtos
+        meta:
+          id: req_1fe5d6d39f534897a94f7b63fefc5965
+          created: 1762571888128
+          modified: 1762571897391
+          isPrivate: false
+          sortKey: -1762571161514
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.BaseUrl }}/products/08734905-c3f8-42ce-9c42-9f76d4b6e0cd"
+        name: Buscar Produto
+        meta:
+          id: req_efa296a1d1d046ed9647f5b60e33e3ac
+          created: 1762571940682
+          modified: 1762571945121
+          isPrivate: false
+          sortKey: -1762571118324.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.BaseUrl }}/products/08734905-c3f8-42ce-9c42-9f76d4b6e0cd"
+        name: Deletar Produto
+        meta:
+          id: req_da323488b52844d9ae0537c19ed678ca
+          created: 1762571969721
+          modified: 1762571974515
+          isPrivate: false
+          sortKey: -1762571096729.75
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.BaseUrl }}/products/2229ed28-5e3a-42df-9706-30125fbff66c"
+        name: Atualizar Produto
+        meta:
+          id: req_b066a8ce407747f19c632dc62a11693d
+          created: 1762572580478
+          modified: 1762572602601
+          isPrivate: false
+          sortKey: -1762571204703.5
+        method: PATCH
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Barbeador"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Pedidos
+    meta:
+      id: fld_514dd0fdb7964effaa46f8126eec047a
+      created: 1762572744880
+      modified: 1762572744880
+      sortKey: -1762572744880
+    children:
+      - url: "{{ _.BaseUrl }}/orders"
+        name: Criar Pedido
+        meta:
+          id: req_af466bd19ff4429996890176284f222b
+          created: 1762572754073
+          modified: 1762573039301
+          isPrivate: false
+          sortKey: -1762572754073
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"userId": "84219455-2e20-48ac-a986-387d2099d600",
+            	"document": "67.879.806/0001-72",
+            	"products": [
+            		{
+            			"productId": "2229ed28-5e3a-42df-9706-30125fbff66c",
+            			"quantity": 2
+            		}, 
+            		{
+            			"productId": "51fb4c35-7153-4b97-b56b-bc1c12e5c6a4",
+            			"quantity": 2
+            		}, 
+            		{
+            			"productId": "5735351c-d12d-4d1f-a201-b5841a4090ae",
+            			"quantity": 2
+            		}
+            	]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.BaseUrl }}/orders/user/84219455-2e20-48ac-a986-387d2099d600"
+        name: Listar Pedido do Usuario
+        meta:
+          id: req_ab22e6ef144941429451210f035ba2db
+          created: 1762573058187
+          modified: 1762573095457
+          isPrivate: false
+          sortKey: -1762572000983
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.BaseUrl }}/orders/finish/bd8d6f2d-4126-4171-bc9a-b39c8713b939"
+        name: Finalizar Pedido
+        meta:
+          id: req_eead4d7319d34caf8420c7d6aa1f15f7
+          created: 1762573168400
+          modified: 1762573328278
+          isPrivate: false
+          sortKey: -1762572377528
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"status": "CANCELED"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{% response 'body', 'req_8e75950bd63e41feb08d4d777c227a6d',
+            'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_5aed52542aa9741738f4bcdfb9d846d114b14152
+    created: 1762568102243
+    modified: 1762568102243
+environments:
+  name: Base Environment
+  meta:
+    id: env_5aed52542aa9741738f4bcdfb9d846d114b14152
+    created: 1762568102238
+    modified: 1762568102238
+    isPrivate: false
+  subEnvironments:
+    - name: local
+      meta:
+        id: env_58b71151678742f7abc4dc7dfb6fdc00
+        created: 1762570206159
+        modified: 1762570389935
+        isPrivate: false
+        sortKey: 1762570206159
+      data:
+        BaseUrl: http://localhost:8000
+spec:
+  meta:
+    id: spc_1b3dc8713e694830ae9f54e3c33621de
+    created: 1762568102233
+    modified: 1762568102233
