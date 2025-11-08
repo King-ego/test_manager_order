@@ -16,6 +16,7 @@ $ docker compose up --build
 ```
 
 ## Informações Adicionais
+- O arquivo de rotas esta dentro da pasta `/insomnia_file/Insomnia.yaml`
 - A aplicação estará disponível em `http://localhost:8000` (variavel `PORT_APP`)
 - O banco de dados mysql estará disponível em `localhost:4444` (variavel `PORT_DB`)
 - O App só será iniciado após o docker conseguir iniciar o banco de dados.
