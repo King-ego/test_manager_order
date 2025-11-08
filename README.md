@@ -9,7 +9,7 @@ Se não tiverem livres, alterar as variáveis `PORT_APP` e `PORT_DB` no arquivo 
 
 
 
-## Instalação do Projeto e Execução do Projeto
+## Instalação e Execução do Projeto
 
 ```bash
 $ docker compose up --build
