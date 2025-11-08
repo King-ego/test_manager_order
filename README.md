@@ -24,7 +24,7 @@ $ docker compose up --build
 - O client prisma será criado automaticamente na primeira vez que o app for iniciado.
 - O app apenas tem criado os arquivos de testes, mas não tem testes implementados.
 
-## Link de Funcionamento
+## Link do Video de Funcionamento
 
 https://drive.google.com/file/d/1ieI7HyNb5Y2lYrxKBw3hin3EtP3OIFHh/view?usp=sharing
 
