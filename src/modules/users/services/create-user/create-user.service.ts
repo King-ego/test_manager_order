@@ -16,7 +16,7 @@ export class CreateUserService {
 
         if (userAlreadyExists) {
             SystemLogs("User Exists for this email")
-            throw new CustomerException("User Not Found", HttpStatus.NOT_FOUND)
+            throw new CustomerException("User already exists", HttpStatus.CONFLICT);
         }
 
         const encodedPassword = await AuthBcrypt.hashPassword(date_user.password)

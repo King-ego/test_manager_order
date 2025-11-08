@@ -6,7 +6,7 @@ import {PrismaClient, ProductOrder, Prisma} from "../../../../../prisma/generate
 import {ProductsRepository} from "../../../products/repositories/product.repository";
 
 interface IFinishOrderProps {
-    status: "CANCELED" | "FINISHED"
+    status: "CANCELED" | "CONCLUDE"
     order_id: string;
 }
 
@@ -24,14 +24,14 @@ export class FinishOrderService {
     public async execute(data_order: IFinishOrderProps) {
         const run = {
             CANCELED: async (order_id: string) => this.cancelOrder(order_id),
-            FINISHED: async (order_id: string) => this.finishOrder(order_id)
+            CONCLUDE: async (order_id: string) => this.concludefinishOrder(order_id)
         }
 
         const action = run[data_order.status];
 
         if(!action){
             SystemLogs("Status inválide");
-            throw new CustomerException("Status inválido CANCELED/FINISHED", 400);
+            throw new CustomerException("Status inválido CANCELED/CONCLUDE", 400);
         }
 
         await action(data_order.order_id)
@@ -75,7 +75,7 @@ export class FinishOrderService {
 
     }
 
-    private async finishOrder(order_id: string) {
+    private async concludefinishOrder(order_id: string) {
         const order = await this.orderRepository.getOrderById(order_id)
 
         if(!order){
@@ -88,6 +88,6 @@ export class FinishOrderService {
             throw new CustomerException("Only pending orders can be finished", 400);
         }
 
-        await this.orderRepository.updateOrder(order.id, {status: "FINISHED"})
+        await this.orderRepository.updateOrder(order.id, {status: "CONCLUDE"})
     }
 }
