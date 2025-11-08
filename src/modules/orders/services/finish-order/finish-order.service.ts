@@ -30,8 +30,8 @@ export class FinishOrderService {
         const action = run[data_order.status];
 
         if(!action){
-            SystemLogs("Status inválido");
-            throw new CustomerException("Status inválido", 400);
+            SystemLogs("Status inválide");
+            throw new CustomerException("Status inválido CANCELED/FINISHED", 400);
         }
 
         await action(data_order.order_id)
