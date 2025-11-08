@@ -7,6 +7,8 @@ services:
       PORT: ${PORT}
       DATABASE_URL: ${DATABASE_URL}
       TOKEN_API_DOCUMENT: ${TOKEN_API_DOCUMENT}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
     ports:
         - "8000:8000"
     restart: unless-stopped
