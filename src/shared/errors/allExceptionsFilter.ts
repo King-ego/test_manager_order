@@ -15,12 +15,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const response = httpHost.getResponse<Response>();
 
         let status = HttpStatus.INTERNAL_SERVER_ERROR;
-        let message = 'Erro interno do servidor';
+        let message = 'Intern Server Error';
 
         if (exception instanceof HttpException) {
             status = exception.getStatus();
             const res = exception.getResponse();
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
             message = typeof res === 'string' ? res : (res as any).message;
         } else if (exception instanceof Error) {
             message = exception.message;
