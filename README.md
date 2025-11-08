@@ -1,9 +1,9 @@
 ## Primeiro Passos
 
 
-Renomear o arquivo `.env.example` para `.env`.
+- Renomear o arquivo `.env.example` para `.env`.
 
-Confirmar se as porta `8000` e `4444` estão livres no seu sistema.
+- Confirmar se as porta `8000` e `4444` estão livres no seu sistema.
 Se não tiverem livres, alterar as variáveis `PORT_APP` e `PORT_DB` no arquivo `.env` para portas livres.
 
 
