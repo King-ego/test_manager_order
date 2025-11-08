@@ -5,10 +5,11 @@ import { ProductsRepository } from './repositories/product.repository';
 import { FindProductService } from './services/find-product/find-product.service';
 import { DeleteProductService } from './services/delete-product/delete-product.service';
 import { ListProductService } from './services/list-product/list-product.service';
+import { UpdateProductService } from './services/update-product/update-product.service';
 
 @Module({
   controllers: [ProductsController],
-  providers: [CreateProductsService, ProductsRepository, FindProductService, DeleteProductService, ListProductService],
+  providers: [CreateProductsService, ProductsRepository, FindProductService, DeleteProductService, ListProductService, UpdateProductService],
   exports: [ProductsRepository],
 })
 export class ProductsModule {}
